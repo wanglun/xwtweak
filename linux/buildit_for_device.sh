@@ -38,6 +38,7 @@ if [ ! "$PalmPDK" ];then
 fi
 
 CC="arm-none-linux-gnueabi-g++"
+STRIP="arm-none-linux-gnueabi-strip"
 INCLUDEDIR="${PalmPDK}/include"
 LIBDIR="${PalmPDK}/device/lib"
 SYSROOT="${PalmPDK}/arm-gcc/sysroot"
@@ -86,5 +87,6 @@ fi
 echo "Building for Device"
 echo "$CC $DEVICEOPTS $CPPFLAGS $LDFLAGS $LIBS -o $BUILDDIR/$OUTFILE $SRCDIR/$SRC"
 $CC $DEVICEOPTS $CPPFLAGS $LDFLAGS $LIBS -o $BUILDDIR/$OUTFILE $SRCDIR/$SRC
+$STRIP $BUILDDIR/$OUTFILE
 
 echo -e "\nPutting binary into $BUILDDIR.\n"
