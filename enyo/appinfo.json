@@ -4,7 +4,7 @@
 	"main": "index.html",
     "icon": "images/logo.png",
 	"id": "com.xwteam.app.xwtweak",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"vendor": "xwteam",
 	"uiRevision": 1,
 	"plug-ins": true
