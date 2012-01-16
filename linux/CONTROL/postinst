@@ -1,0 +1,9 @@
+#!/bin/sh
+SETUP_JAILS_FILE="/etc/event.d/finish-poststart.d/020-setup_jails"
+NOJAIL_FILE="/etc/nojail"
+
+echo "pardon" > "$NOJAIL_FILE"
+
+if [ -f "$SETUP_JAILS_FILE" ]; then
+    sed -i "s/^\(rm\ -f\ \/etc\/nojail\)/#\1/g" "$SETUP_JAILS_FILE"
+fi
