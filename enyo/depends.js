@@ -1,4 +1,4 @@
 enyo.depends(
-	"app.js",
-    "app.css"
+	"sources/xwtweak.js",
+    "sources/xwtweak.css"
 );
