@@ -6,7 +6,11 @@
 </head>
 <body>
 <script type="text/javascript">
-	var xwtweakApp = new XwTweakApp().renderInto(document.body);
+    try {
+        var xwtweakApp = new XwTweakApp().renderInto(document.body);
+    } catch (e) {
+        document.write("Error: enyo not installed");
+    }
 </script>
 </body>
 </html>

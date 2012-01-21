@@ -24,29 +24,36 @@ enyo.kind({
 	kind: "VFlexBox",
 	components: [
         {kind: "XwTweakPlugin", name: "plugin"},
-        {kind: "Control", style: "margin-top: 10px", flex: 1, components: [
-            {kind: "RowGroup", caption: $L("System"), components: [
+        {kind: enyo.Control, name: "content", style: "margin-top: 10px", flex: 1, components: [
+            {kind: "RowGroup", name: "system_toggle", caption: $L("System"), components: [
                 {kind: "LabeledContainer", caption: $L("Accelerometer"), components: [
                     {kind: "ToggleButton", name: "AccelerometerToggle", onChange: "AccelerometerToggleClick"}
                 ]},
             ]},
-        ]}
+        ]},
 	],
 
 	create: function() {
 		this.inherited(arguments);
-        this.$.plugin.callPluginMethodDeferred(enyo.bind(this, "initAccelerometerToggle"), "getState");
+		this.$.plugin.callPluginMethodDeferred(enyo.bind(this, "initAccelerometerToggle"), "getState");
 	},
-    initAccelerometerToggle: function(ret) {
-        if (ret === "on") {
-            this.$.AccelerometerToggle.setState(true);
-        } else {
-            this.$.AccelerometerToggle.setState(false);
-        }
-    },
-    AccelerometerToggleClick: function() {
-        this.$.plugin.setState(this.$.AccelerometerToggle.getState());
-    },
+	initAccelerometerToggle: function(ret) {
+	    switch (ret) {
+		case "on":
+		    this.$.AccelerometerToggle.setState(true);
+		    break;
+		case "off":
+		    this.$.AccelerometerToggle.setState(false);
+		    break;
+		default:
+		    this.$.system_toggle.hide();
+		    this.$.content.setContent("Error: " . ret);
+		    break;
+	    }
+	},
+	AccelerometerToggleClick: function() {
+	    this.$.plugin.setState(this.$.AccelerometerToggle.getState());
+	},
 });
 
 enyo.kind({

@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include <syslog.h>
+#include <unistd.h>
+#include <errno.h>
      
 #include "SDL.h"
 #include "PDL.h"
@@ -11,8 +13,18 @@
 static PDL_bool getState(PDL_JSParameters *params)
 {
     struct stat buf;
+    char err[10] = {0};
     if (stat(HID_ACCELEROMETER, &buf)) {
-        PDL_JSReply(params, "off");
+	if (errno == EEXIST) {
+	    if (stat(HID_ACCELEROMETER_BAK, &buf)) {
+		PDL_JSReply(params, "E1");
+	    } else {
+		PDL_JSReply(params, "off");
+	    }
+	} else {
+	    sprintf(err, "%d", errno);
+	    PDL_JSReply(params, err);
+	}
     } else {
         PDL_JSReply(params, "on");
     }
