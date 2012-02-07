@@ -1,0 +1,14 @@
+{
+  "role": {
+     "exeName":"/var/usr/sbin/com.xwteam.app.xwtweak",
+     "type": "regular",
+     "allowedNames": ["com.xwteam.app.xwtweak"]
+  },
+  "permissions": [
+    {
+      "service":"com.xwteam.app.xwtweak",
+      "inbound":["*"],
+      "outbound":["*"]
+    }
+  ]
+}

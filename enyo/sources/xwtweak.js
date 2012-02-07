@@ -1,44 +1,26 @@
 enyo.kind({
-	name: "XwTweakPlugin",
-	kind: "enyo.Hybrid",
-	width: 0,
-	height: 0,
-	executable: "xwtweak_plugin",
-    cachePlugin: true,
-
-	create: function() {
-		this.inherited(arguments);
-	},
-
-	setState: function(flag) {
-		if (window.PalmSystem) {
-            flag = flag && 1 || 0;
-			this.callPluginMethodDeferred(enyo.nop, "setState", flag);
-		}
-	},
-
-});
-
-enyo.kind({
 	name: "mainView",
 	kind: "VFlexBox",
 	components: [
-        {kind: "XwTweakPlugin", name: "plugin"},
+		{name: "getAccelState", kind: "PalmService", service: "palm://com.xwteam.app.xwtweak/", method: "accelGetState", onSuccess: "getAccelStateS", onFailure: "failure"},
+		{name: "setAccelState", kind: "PalmService", service: "palm://com.xwteam.app.xwtweak/", method: "accelSetState", onSuccess: "setAccelStateS", onFailure: "failure"},
         {kind: enyo.Control, name: "content", style: "margin-top: 10px", flex: 1, components: [
             {kind: "RowGroup", name: "system_toggle", caption: $L("System"), components: [
                 {kind: "LabeledContainer", caption: $L("Accelerometer"), components: [
                     {kind: "ToggleButton", name: "AccelerometerToggle", onChange: "AccelerometerToggleClick"}
                 ]},
             ]},
+	    {name: "error", showing: false, allowHtml: true},
         ]},
 	],
 
 	create: function() {
 		this.inherited(arguments);
-		this.$.plugin.callPluginMethodDeferred(enyo.bind(this, "initAccelerometerToggle"), "getState");
+	    enyo.error("mainview start");
+        this.$.getAccelState.call();
 	},
-	initAccelerometerToggle: function(ret) {
-	    switch (ret) {
+	getAccelStateS: function(inSender, inResponse) {
+	    switch (inResponse.state) {
 		case "on":
 		    this.$.AccelerometerToggle.setState(true);
 		    break;
@@ -47,12 +29,21 @@ enyo.kind({
 		    break;
 		default:
 		    this.$.system_toggle.hide();
-		    this.$.content.setContent("Error: " . ret);
+		    this.$.error.show();
+		    this.$.error.setContent("<h1>" + $L("error code") + ": " + ret + "</h1><h3>" + $L("Contact me") + ": xwteam001@gmail.com</h3>");
 		    break;
 	    }
 	},
+    setAccelStateS: function(inSender, inResponse) {
+    },
+    failure: function(inSender, inResponse) {
+    },
 	AccelerometerToggleClick: function() {
-	    this.$.plugin.setState(this.$.AccelerometerToggle.getState());
+	    if (this.$.AccelerometerToggle.getState()) {
+            this.$.setAccelState.call({state: "on"});
+        } else {
+            this.$.setAccelState.call({state: "off"});
+        }
 	},
 });
 
@@ -80,6 +71,7 @@ enyo.kind({
 
         var appInfo = enyo.fetchAppInfo();
         this.$.aboutHeader.setContent($L("About") + " " + appInfo.title + " " + appInfo.version);
+	    enyo.error("app start");
         
     },
 
