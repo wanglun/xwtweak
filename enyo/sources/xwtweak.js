@@ -56,8 +56,19 @@ enyo.kind({
                 {kind: "mainView", name: "main"},
                 {kind: enyo.VFlexBox, name: "about", className: "aboutView", lazy: false, components: [
                     {kind: enyo.PageHeader, name: "aboutHeader"},
-                    {kind: enyo.Image, src: "images/xwteam_logo.png"},
-                    {content: "xwteam001@gmail.com", flex: 1},
+                        {kind: enyo.BasicScroller, components: [
+                            {kind: "RowGroup", caption: $L("Author"), components: [
+                                {kind: enyo.Image, src: "images/xwteam_logo.png"},
+                                {content: "xwteam001@gmail.com", flex: 1},
+                            ]},
+                            {kind: "RowGroup", caption: $L("PalmService"), components: [
+                                {content: "palm://com.xwteam.app.xwtweak/"},
+                                {kind: "RowGroup", caption: $L("Accelerometer"), components: [
+                                    {content: "<ul><li><b>method:</b> accelGetState</li><li><b>return:</b> {\"state\":\"on\"} OR {\"state\":\"off\"}</li></ul>", allowHtml: true},
+                                    {content: "<ul><li><b>method:</b> accelSetState</li><li><b>param:</b> {\"state\": \"on\"} OR {\"state\": \"off\"}</li></ul>", allowHtml: true},
+                                ]},
+                            ]},
+                        ]},
                 ]},
             ]
         },

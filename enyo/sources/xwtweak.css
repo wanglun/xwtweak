@@ -1,3 +1,11 @@
 .aboutView {
     text-align: center;
 }
+.aboutView ul {
+    list-style: none;
+    padding: 3px;
+}
+.aboutView ul li {
+    text-align: left;
+}
+
