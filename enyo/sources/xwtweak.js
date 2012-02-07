@@ -16,7 +16,6 @@ enyo.kind({
 
 	create: function() {
 		this.inherited(arguments);
-	    enyo.error("mainview start");
         this.$.getAccelState.call();
 	},
 	getAccelStateS: function(inSender, inResponse) {
@@ -30,7 +29,7 @@ enyo.kind({
 		default:
 		    this.$.system_toggle.hide();
 		    this.$.error.show();
-		    this.$.error.setContent("<h1>" + $L("error code") + ": " + ret + "</h1><h3>" + $L("Contact me") + ": xwteam001@gmail.com</h3>");
+		    this.$.error.setContent("<h1>" + $L("error code") + ": " + inResponse.state + "</h1><h3>" + $L("Contact me") + ": xwteam001@gmail.com</h3>");
 		    break;
 	    }
 	},
@@ -82,7 +81,6 @@ enyo.kind({
 
         var appInfo = enyo.fetchAppInfo();
         this.$.aboutHeader.setContent($L("About") + " " + appInfo.title + " " + appInfo.version);
-	    enyo.error("app start");
         
     },
 

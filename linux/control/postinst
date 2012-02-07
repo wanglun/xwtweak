@@ -11,6 +11,11 @@ APPS=/media/cryptofs/apps
 APPDIR=${APPS}/usr/palm/applications/${APPID}
 CSRVDIR=${APPS}/usr/palm/applications/${APPID}/service
 
+#rm nojail v0.1's BUG
+if [ -f /etc/nojail ]; then
+    rm /etc/nojail
+fi
+
 # Remove the C service executable
 rm -f /var/usr/sbin/${APPID}
 
@@ -49,7 +54,7 @@ cp ${CSRVDIR}/${APPID} /var/palm/event.d/${APPID}
 # Remove the service directory
 rm -r ${CSRVDIR}
 
-# Start the C service
+# Start the service
 /sbin/start ${APPID}
 
 exit 0
