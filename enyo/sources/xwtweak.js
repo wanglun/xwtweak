@@ -6,7 +6,7 @@ enyo.kind({
 		{name: "setAccelState", kind: "PalmService", service: "palm://com.xwteam.app.xwtweak/", method: "accelSetState", onSuccess: "setAccelStateS", onFailure: "failure"},
         {kind: enyo.Control, name: "content", style: "margin-top: 10px", flex: 1, components: [
             {kind: "RowGroup", name: "system_toggle", caption: $L("System"), components: [
-                {kind: "LabeledContainer", caption: $L("Accelerometer"), components: [
+                {kind: "LabeledContainer", caption: $L("Rotation Lock"), components: [
                     {kind: "ToggleButton", name: "AccelerometerToggle", onChange: "AccelerometerToggleClick"}
                 ]},
             ]},
@@ -21,10 +21,10 @@ enyo.kind({
 	getAccelStateS: function(inSender, inResponse) {
 	    switch (inResponse.state) {
 		case "on":
-		    this.$.AccelerometerToggle.setState(true);
+		    this.$.AccelerometerToggle.setState(false);
 		    break;
 		case "off":
-		    this.$.AccelerometerToggle.setState(false);
+		    this.$.AccelerometerToggle.setState(true);
 		    break;
 		default:
 		    this.$.system_toggle.hide();
@@ -39,9 +39,9 @@ enyo.kind({
     },
 	AccelerometerToggleClick: function() {
 	    if (this.$.AccelerometerToggle.getState()) {
-            this.$.setAccelState.call({state: "on"});
-        } else {
             this.$.setAccelState.call({state: "off"});
+        } else {
+            this.$.setAccelState.call({state: "on"});
         }
 	},
 });
